@@ -1,0 +1,29 @@
+spring:
+  application:
+      name: jwt
+
+  # 데이터베이스 접속 설정
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;NON_KEYWORDS=USER #DB 연결주소(jdbc:h2:mem:testdb),예약어 무시
+    username: sa #DB 접속계정
+    password: #DB 접속 패스워드
+
+  #h2 브라우저 console 설정
+  h2:
+    console:
+      enabled: true #브라우저 console 사용
+      path: /h2-console #h2 데이터베이스 console 접속 url
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update #DB 초기화 전략
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        show_sql: true  #쿼리 로그 출력
+        format_sql: true  #쿼리 로그 포맷(정렬)
+
+
+
