@@ -20,7 +20,7 @@ public class SecurityConfiguration {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .requestMatchers("/user").authenticated()
+                        .requestMatchers("/user").hasRole("USER")
                         .anyRequest().permitAll()
                 );
 
