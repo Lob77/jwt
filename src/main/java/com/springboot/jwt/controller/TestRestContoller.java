@@ -3,6 +3,9 @@ package com.springboot.jwt.controller;
 import com.springboot.jwt.config.JwtTokenProvider;
 import com.springboot.jwt.entity.User;
 import com.springboot.jwt.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name="Test용 API", description = "Jwt 테스트용 API")
 public class TestRestContoller {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -22,6 +26,8 @@ public class TestRestContoller {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/join")
+    @Operation(summary = "회원가입 테스트")
+    @Parameter(name="joinUser", description = "회원가입 정보")
     public Long join(@RequestBody Map<String, String> user) {
         return userRepository.save(User.builder()
                 .email(user.get("email"))
@@ -30,9 +36,10 @@ public class TestRestContoller {
                 .build()).getId();
     }
 
-
     // 로그인
     @PostMapping("/login")
+    @Operation(summary = "로그인 테스트")
+    @Parameter(name = "loginUser", description = "로그인 정보")
     public String login(@RequestBody Map<String, String> user) {
         User member = userRepository.findByEmail(user.get("email")).orElseThrow(() ->
                 new UsernameNotFoundException("사용자 정보 없음"));

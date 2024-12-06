@@ -17,5 +17,4 @@ public class JwtApplication {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 }

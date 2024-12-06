@@ -25,8 +25,16 @@ spring:
         show_sql: true  #쿼리 로그 출력
         format_sql: true  #쿼리 로그 포맷(정렬)
 
+# 로그레벨 설정
 logging:
   level:
     root: INFO
 
-
+# Swagger 설정
+springdoc:
+  api-docs:
+    enabled: true
+    path: "/v3/api-docs"
+  swagger-ui:
+    enabled: true
+    path: "/swagger-ui.html"
