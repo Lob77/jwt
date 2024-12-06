@@ -1,6 +1,6 @@
 package com.springboot.jwt.config;
 
-import com.springboot.jwt.service.UserService;
+import com.springboot.jwt.service.UserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 public class JwtTokenProvider {
 
-    private UserService userService;
+    private UserDetailsService userDetailsService;
 
     private String secretKey = "jojedev";
     private final Long tokenValidMilliSecond = 1000L * 60 * 60;
@@ -56,7 +56,7 @@ public class JwtTokenProvider {
     // 토큰 인증 정보 확인
     public Authentication getAuthentication(String token) {
 
-        UserDetails userDetails = userService.loadByUserName(this.getUserName(token));
+        UserDetails userDetails = userDetailsService.loadByUserName(this.getUserName(token));
 
        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
