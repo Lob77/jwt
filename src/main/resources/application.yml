@@ -25,5 +25,8 @@ spring:
         show_sql: true  #쿼리 로그 출력
         format_sql: true  #쿼리 로그 포맷(정렬)
 
+logging:
+  level:
+    root: INFO
 
 
