@@ -33,7 +33,7 @@ public class SecurityConfiguration{
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .requestMatchers("/user").hasRole("USER")
+                        .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
