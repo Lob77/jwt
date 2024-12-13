@@ -5,8 +5,12 @@ import com.springboot.jwt.entity.User;
 import com.springboot.jwt.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +40,6 @@ public class TestRestContoller {
                 .build()).getId();
     }
 
-    // 로그인
     @PostMapping("/login")
     @Operation(summary = "로그인 테스트")
     @Parameter(name = "loginUser", description = "로그인 정보")
@@ -47,5 +50,18 @@ public class TestRestContoller {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+    }
+
+    @PostMapping("/user/resource")
+    @Operation(summary = "토큰을 이용한 인증 테스트", security = @SecurityRequirement(name="JWT"))
+    public ResponseEntity<String> getProtectedResource() {
+
+        // HttpHeaders 객체 생성
+        HttpHeaders headers = new HttpHeaders();
+
+        // 헤더 값 추가
+        headers.add("Authorization", "Bearer <your_jwt_token>");
+
+        return new ResponseEntity<>("토큰을 이용한 인증 성공", headers, HttpStatus.OK);
     }
 }
