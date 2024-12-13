@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Getter
 @Builder
+@Table(name = "\"USER\"") // 예약어 이스케이프 처리
 public class User implements UserDetails {
 
     @Id
