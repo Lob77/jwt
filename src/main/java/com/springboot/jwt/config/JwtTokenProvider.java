@@ -1,5 +1,6 @@
 package com.springboot.jwt.config;
 
+
 import com.springboot.jwt.service.UserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -10,11 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
@@ -26,7 +25,7 @@ import java.util.List;
 @Slf4j
 public class JwtTokenProvider {
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Value("${jwt.secretKey}")
     private String secretKey;
@@ -60,6 +59,7 @@ public class JwtTokenProvider {
     // 토큰 인증 정보 확인
     public Authentication getAuthentication(String token) {
 
+        String userInfo = this.getUserName(token);
         UserDetails userDetails = userDetailsService.loadByUserName(this.getUserName(token));
 
        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -76,8 +76,8 @@ public class JwtTokenProvider {
     // request에서 token 정보 추출
     public String resolveToken(HttpServletRequest request) {
 
-        log.info("request 헤더에서 token 값 추출:" + request.getHeader("X-AUTH-TOKEN"));
-        return request.getHeader("X-AUTH-TOKEN");
+        log.info("request 헤더에서 token 값 추출:" + request.getHeader("Authorization"));
+        return request.getHeader("Authorization");
     }
 
     // 토큰 유효성 검사
